@@ -6,7 +6,7 @@ Il existe un parc de $N$ maisons chaque maison avec un prix $a_i$ . Vous avez un
 
 ## Séquence d'entrée/sortie
 
-Vous allez tester votre programme avec un fichier texte contenant $D$ tests différents chaque test contient dans la premier ligne le numéro N de maisons et le budget $B$, et dans la ligne suivante la séquence de prix de chaque maison.​
+Vous allez tester votre programme avec un fichier texte contenant $T$ tests différents chaque test contient dans la premier ligne le numéro $N$ de maisons et le budget $B$, et dans la ligne suivante la séquence de prix de chaque maison.​
 
 - **Exemple fichier en entrée**
 
