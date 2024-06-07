@@ -1,4 +1,5 @@
 from pathlib import Path
+
 def solve(input_filename, output_filename):
     with open(input_filename, 'r') as f, open(output_filename, 'w') as outfile:
         count = 0

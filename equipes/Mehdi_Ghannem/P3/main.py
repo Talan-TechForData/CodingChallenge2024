@@ -1,5 +1,6 @@
 from collections import deque
 from pathlib import Path
+
 def neighbors(node, n, d, max_a, min_b):
     for a in range(max_a):
         for b in range(min_b, n):
