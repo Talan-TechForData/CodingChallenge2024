@@ -1,65 +1,71 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
+#include <algorithm>
+#include <fstream>
+#define FOR(k, n) for (int k = 0; k < (n); ++k)
 
-using namespace std;
+const int d4i[4] = {-1, 0, 1, 0}, d4j[4] = {0, 1, 0, -1};
+const int d8i[8] = {-1, -1, 0, 1, 1, 1, 0, -1}, d8j[8] = {0, 1, 1, 1, 0, -1, -1, -1};
 
-int min_moves_to_unlock(int N, int D, vector<int> &wheels)
+long long dp[400][400][400];
+
+long long solve_case(std::ifstream &infile)
 {
-    int moves = 0;
-    int i = 0;
-    while (i < N)
-    {
-        if (wheels[i] != 0)
-        {
-            // Determine the length of the current sequence of non-zero wheels
-            int j = i;
-            while (j < N && wheels[j] != 0)
-            {
-                j++;
-            }
+    int n, d;
+    infile >> n >> d;
+    std::vector<int> v(n);
+    for (int i = 0; i < n; ++i)
+        infile >> v[i];
 
-            // Move all wheels in the interval [i, j-1] to 0
-            moves++;
-            i = j;
-        }
-        else
+    for (int i = n - 1; i >= 0; --i)
+    {
+        FOR(k, n)
         {
-            i++;
+            dp[i][i][k] = std::min((v[i] + d - v[k]) % d, d - (v[i] + d - v[k]) % d);
+        }
+        for (int j = i + 1; j < n; ++j)
+        {
+            FOR(k, n)
+            {
+                dp[i][j][k] = dp[i][j - 1][j] + std::min((v[j] + d - v[k]) % d, d - (v[j] + d - v[k]) % d);
+                dp[i][j][k] = std::min(dp[i][j][k], dp[i + 1][j][i] + std::min((v[i] + d - v[k]) % d, d - (v[i] + d - v[k]) % d));
+            }
         }
     }
-    return moves;
+
+    long long result = std::min(dp[0][n - 1][n - 1] + v[n - 1], dp[0][n - 1][n - 1] + d - v[n - 1]);
+    result = std::min(result, dp[0][n - 1][0] + v[0]);
+    result = std::min(result, dp[0][n - 1][0] + d - v[0]);
+
+    return result;
 }
 
 int main(int argc, char *argv[])
 {
     if (argc != 2)
     { // Check if the number of arguments is correct
-        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
         return 1;
     }
 
-    ifstream infile(argv[1]); // Open the input file
-
+    std::ifstream infile(argv[1]); // Open the input file
     if (!infile)
     { // Check if the file was successfully opened
-        cerr << "Error opening file " << argv[1] << endl;
+        std::cerr << "Error opening input file " << argv[1] << std::endl;
         return 1;
     }
 
-    int T;
-    infile >> T;
-    for (int t = 1; t <= T; t++)
+    std::ios::sync_with_stdio(0);
+    std::cin.tie(0);
+
+    int t;
+    infile >> t; // Read the number of test cases
+
+    for (int i = 1; i <= t; ++i)
     {
-        int N, D;
-        infile >> N >> D;
-        vector<int> wheels(N);
-        for (int i = 0; i < N; i++)
-        {
-            infile >> wheels[i];
-        }
-        int result = min_moves_to_unlock(N, D, wheels);
-        cout << "Case #" << t << ": " << result << endl;
+        long long result = solve_case(infile);
+        std::cout << "Case #" << i << ": " << result << "\n";
     }
+
     return 0;
 }
