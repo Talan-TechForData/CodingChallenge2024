@@ -5,13 +5,19 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-    ifstream infile("input.txt");
+    if (argc != 2)
+    { // Check if the number of arguments is correct
+        cerr << "Usage: " << argv[0] << " <input_file>" << endl;
+        return 1;
+    }
+
+    ifstream infile(argv[1]); // Open the file named "input.txt"
 
     if (!infile)
-    {
-        cerr << "Error opening file" << endl;
+    { // Check if the file was successfully opened
+        cerr << "Error opening file" << argv[1] << endl;
         return 1;
     }
 
