@@ -1,0 +1,11 @@
+Test 1 : 2 temps 0.000002 sec
+Test 2 : 3 temps 0.000002 sec
+Test 3 : 5 temps 0.000001 sec
+Test 4 : 2 temps 0.000000 sec
+Test 5 : 3 temps 0.000001 sec
+Test 6 : 4 temps 0.000001 sec
+Test 7 : 4 temps 0.000000 sec
+Test 8 : 3 temps 0.000000 sec
+Test 9 : 3 temps 0.000001 sec
+Test 10 : 3 temps 0.000000 sec
+Test 11 : 6 temps 0.000002 sec
