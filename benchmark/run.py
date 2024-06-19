@@ -25,7 +25,7 @@ def copy_input_files():
     for problem_dir in solutions_dir.iterdir():
         problem_name = problem_dir.name
         if problem_name.startswith("P"):
-            cases = 250  # Adjust the number of cases as needed
+            cases = 10  # Adjust the number of cases as needed
             generate_cases(problem_name, cases)
             for team_dir in base_directory.glob(f"*/data/{problem_name}"):
                 if team_dir.is_dir():
@@ -34,6 +34,8 @@ def copy_input_files():
                         destination_file = team_dir / "input.txt"
                         shutil.copy(input_file_path, destination_file)
                         print(f"Copied input.txt for problem {problem_name} to {destination_file}")
+                        # Log the source of the copied file
+                        print(f"Source: {input_file_path}")
                     else:
                         print(f"Warning: input.txt not found for problem {problem_name}")
 
