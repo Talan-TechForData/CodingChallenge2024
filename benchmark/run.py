@@ -25,8 +25,6 @@ def copy_input_files():
     for problem_dir in solutions_dir.iterdir():
         problem_name = problem_dir.name
         if problem_name.startswith("P"):
-            cases = 10  # Adjust the number of cases as needed
-            generate_cases(problem_name, cases)
             for team_dir in base_directory.glob(f"*/data/{problem_name}"):
                 if team_dir.is_dir():
                     input_file_path = problem_dir / "input.txt"
@@ -39,11 +37,12 @@ def copy_input_files():
                     else:
                         print(f"Warning: input.txt not found for problem {problem_name}")
 
-def main(execute_clean_script):
+def main(generate_cases_flag, execute_clean_script):
     results = []
 
-    # Copy input.txt files to team directories
-    copy_input_files()
+    # Generate and copy input.txt files if flag is set
+    if generate_cases_flag:
+        copy_input_files()
 
     # Walk through all directories and subdirectories
     for root, dirs, files in os.walk(base_directory):
@@ -96,8 +95,9 @@ def main(execute_clean_script):
 if __name__ == "__main__":
     # Set up argparse to handle command-line arguments
     parser = argparse.ArgumentParser(description='Execute Python and R scripts and optionally clean outputs.')
+    parser.add_argument('--generate', action='store_true', help='Generate input.txt files (default: False)')
     parser.add_argument('--clean', action='store_true', help='Execute clean_outputs.sh after execution (default: False)')
     args = parser.parse_args()
 
-    # Call main function with optional clean argument
-    main(args.clean)
+    # Call main function with optional arguments
+    main(args.generate, args.clean)
