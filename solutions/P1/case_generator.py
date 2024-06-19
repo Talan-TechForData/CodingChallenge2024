@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     path = pathlib.Path(__file__).parent.resolve()
 
-    with open("input.txt", "w") as fin, open("output.txt", "wb") as fout:
+    with open(path / "input.txt", "w") as fin, open(path / "output.txt", "wb") as fout:
         for i in range(args.cases):
             pk = random.randint(0, args.cases)
             fout.write(f"Case #{i}: {pk}\n".encode("utf-8"))
