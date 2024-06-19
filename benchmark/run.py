@@ -11,12 +11,22 @@ base_directory = Path(__file__).parent / "../equipes"
 python_ext = '.py'
 r_ext = '.R'
 
+def generate_cases(problem, cases):
+    case_generator_script = Path(__file__).parent / f"../solutions/{problem}/case_generator.py"
+    try:
+        subprocess.run(["python", str(case_generator_script), str(cases)], check=True)
+        print(f"Generated {cases} cases for problem {problem}.")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to generate cases for problem {problem}: {e}")
+
 def copy_input_files():
     # Iterate over each problem directory in solutions/data
-    solutions_dir = Path(__file__).parent / "../solutions/data"
+    solutions_dir = Path(__file__).parent / "../solutions"
     for problem_dir in solutions_dir.iterdir():
-        if problem_dir.is_dir():
-            problem_name = problem_dir.name
+        problem_name = problem_dir.name
+        if problem_name.startswith("P"):
+            cases = 250  # Adjust the number of cases as needed
+            generate_cases(problem_name, cases)
             for team_dir in base_directory.glob(f"*/data/{problem_name}"):
                 if team_dir.is_dir():
                     input_file_path = problem_dir / "input.txt"
