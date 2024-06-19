@@ -4,47 +4,27 @@ import time
 import pandas as pd
 from pathlib import Path
 import argparse
-import shutil
+import threading
 
 # Define base directory and file extensions
 base_directory = Path(__file__).parent / "../equipes"
 python_ext = '.py'
 r_ext = '.R'
 
-def generate_cases(problem, cases):
-    case_generator_script = Path(__file__).parent / f"../solutions/{problem}/case_generator.py"
+def run_with_timeout(command, timeout):
+    """Run a command with a timeout."""
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    timer = threading.Timer(timeout, proc.kill)
     try:
-        subprocess.run(["python", str(case_generator_script), str(cases)], check=True)
-        print(f"Generated {cases} cases for problem {problem}.")
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to generate cases for problem {problem}: {e}")
+        timer.start()
+        stdout, stderr = proc.communicate()
+    finally:
+        timer.cancel()
+    return stdout, stderr
 
-def copy_input_files():
-    # Iterate over each problem directory in solutions/data
-    solutions_dir = Path(__file__).parent / "../solutions"
-    for problem_dir in solutions_dir.iterdir():
-        problem_name = problem_dir.name
-        if problem_name.startswith("P"):
-            for team_dir in base_directory.glob(f"*/data/{problem_name}"):
-                if team_dir.is_dir():
-                    input_file_path = problem_dir / "input.txt"
-                    if input_file_path.exists():
-                        destination_file = team_dir / "input.txt"
-                        shutil.copy(input_file_path, destination_file)
-                        print(f"Copied input.txt for problem {problem_name} to {destination_file}")
-                        # Log the source of the copied file
-                        print(f"Source: {input_file_path}")
-                    else:
-                        print(f"Warning: input.txt not found for problem {problem_name}")
-
-def main(generate_cases_flag, execute_clean_script):
+def main():
     results = []
 
-    # Generate and copy input.txt files if flag is set
-    if generate_cases_flag:
-        copy_input_files()
-
-    # Walk through all directories and subdirectories
     for root, dirs, files in os.walk(base_directory):
         for file in files:
             file_path = os.path.join(root, file)
@@ -58,9 +38,12 @@ def main(generate_cases_flag, execute_clean_script):
             # Measure the execution time
             start_time = time.time()
             try:
-                subprocess.run([interpreter, file_path], check=True)
+                stdout, stderr = run_with_timeout([interpreter, file_path], timeout=60)
                 status = 'Success'
                 print(f"Execution of {file_path} successful.")
+            except subprocess.TimeoutExpired:
+                status = '>30s'
+                print(f"Execution of {file_path} exceeded 30 seconds.")
             except subprocess.CalledProcessError:
                 status = 'Failed'
                 print(f"Execution of {file_path} failed.")
@@ -82,22 +65,5 @@ def main(generate_cases_flag, execute_clean_script):
     # Print the results in a table format
     print(df.to_string(index=False))
 
-    # Optionally execute the clean_outputs.sh script
-    if execute_clean_script:
-        bash_file = Path(__file__).parent.resolve() / "clean_outputs.sh"
-        try:
-            subprocess.run(["bash", str(bash_file)], check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to execute clean_outputs.sh: {e}")
-    else:
-        print("Skipping execution of clean_outputs.sh")
-
 if __name__ == "__main__":
-    # Set up argparse to handle command-line arguments
-    parser = argparse.ArgumentParser(description='Execute Python and R scripts and optionally clean outputs.')
-    parser.add_argument('--generate', action='store_true', help='Generate input.txt files (default: False)')
-    parser.add_argument('--clean', action='store_true', help='Execute clean_outputs.sh after execution (default: False)')
-    args = parser.parse_args()
-
-    # Call main function with optional arguments
-    main(args.generate, args.clean)
+    main()

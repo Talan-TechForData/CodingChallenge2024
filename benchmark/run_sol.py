@@ -53,8 +53,12 @@ def main(execute_clean_script):
                 file_call = file_path.with_suffix('.o')
 
                 # Determine the input file and output directory based on the directory
-                for problem, input_file in MAP.items():
+                input_file = None
+                input_file_dir = None
+                for problem, path in MAP.items():
                     if problem in str(file_path):
+                        input_file = path
+                        input_file_dir = Path(path).parent
                         output_dir = MAP_OUTPUTS[problem]
                         break
                 else:
@@ -89,7 +93,8 @@ def main(execute_clean_script):
                     'Interpreter': interpreter,
                     'Status': status,
                     'Execution Time (s)': execution_time,
-                    'Output File': output_file
+                    'Output File': output_file,
+                    'Input File Directory': str(input_file_dir)  # Add input file directory to results
                 })
 
     # Convert results to a DataFrame
