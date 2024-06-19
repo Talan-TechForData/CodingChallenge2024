@@ -22,5 +22,5 @@ def solve(input_filename, output_filename):
 if __name__ == "__main__":
     root = Path(__file__).resolve().parent.parent
     input_filename = root / "data/P2/input.txt"
-    output_filename = root / "output.txt"
+    output_filename = root / "data/P2/output.txt"
     solve(input_filename, output_filename)
