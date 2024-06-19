@@ -14,7 +14,7 @@ def main():
                 if (sublist[i + 1] > sublist[i]) and (sublist[i + 1] > sublist[i + 2]):
                     count_peak += 1
             number_of_test += 1
-            f.write(f'Test {number_of_test} : {count_peak}\n')
+            f.write(f'Test {number_of_test}: {count_peak}\n')
     print('Résultats exportés dans output_p1_AM.txt')
 
 if __name__ == "__main__":

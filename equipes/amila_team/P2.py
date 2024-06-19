@@ -24,7 +24,7 @@ def main():
                 for comb in itertools.combinations(start_list[i+1], r):
                     if sum(comb) <= B:
                         max_house = max(max_house, len(comb))
-            f.write(f'Test {number_of_test} : {max_house}\n')
+            f.write(f'Test {number_of_test}: {max_house}\n')
     print('Résultats exportés dans output_p2_AM.txt')
 
 
