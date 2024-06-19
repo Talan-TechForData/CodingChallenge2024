@@ -11,9 +11,9 @@ cpp_ext = '.cpp'
 
 # Define mappings for input and output paths based on problem directories
 MAP = {
-    "P1": "data/P1/input.txt",
-    "P2": "data/P2/input.txt",
-    "P3": "data/P3/input.txt"
+    "P1": base_directory / "data/P1/input.txt",
+    "P2": base_directory / "data/P2/input.txt",
+    "P3": base_directory / "data/P3/input.txt"
 }
 
 MAP_OUTPUTS = {
@@ -22,27 +22,41 @@ MAP_OUTPUTS = {
     "P3": "solutions/data/P3/"
 }
 
+def compile_cpp_file(file_path):
+    try:
+        compile_command = ["g++", str(file_path), "-o", str(file_path.with_suffix('.o'))]
+        print(f"Compiling with command: {' '.join(compile_command)}")
+        result = subprocess.run(compile_command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print(result.stdout.decode('utf-8'))
+        print(result.stderr.decode('utf-8'))
+        print(f"Successfully compiled {file_path}")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to compile {file_path}: {e}")
+        return False
+
+
 def main(execute_clean_script):
     results = []
 
     # Walk through all directories and subdirectories
     for root, dirs, files in os.walk(base_directory):
         for file in files:
-            file_path = os.path.join(root, file)
-            if file.endswith(cpp_ext):
+            file_path = Path(root) / file
+            if file_path.suffix == cpp_ext:
                 interpreter = 'bash'
-                file_call = file.split(".")[0] + ".o"
+                # Check if the corresponding .o file exists or compile it
+                if not (file_path.with_suffix('.o')).exists():
+                    if not compile_cpp_file(file_path):
+                        continue  # Skip to the next file if compilation fails
+
+                file_call = file_path.with_suffix('.o')
 
                 # Determine the input file and output directory based on the directory
-                if "P1" in str(file_path):
-                    input_file = MAP.get("P1")
-                    output_dir = MAP_OUTPUTS.get("P1")
-                elif "P2" in str(file_path):
-                    input_file = MAP.get("P2")
-                    output_dir = MAP_OUTPUTS.get("P2")
-                elif "P3" in str(file_path):
-                    input_file = MAP.get("P3")
-                    output_dir = MAP_OUTPUTS.get("P3")
+                for problem, input_file in MAP.items():
+                    if problem in str(file_path):
+                        output_dir = MAP_OUTPUTS[problem]
+                        break
                 else:
                     continue  # Skip files that do not match any problem directory
 
@@ -57,11 +71,13 @@ def main(execute_clean_script):
                 try:
                     # Run the compiled C++ file with the specified input file and capture output
                     with open(output_file, 'w') as f_out:
-                        subprocess.run(["bash", file_call, input_file], stdout=f_out, stderr=subprocess.PIPE, check=True)
+                        subprocess.run([str(file_call), input_file], stdout=f_out, stderr=subprocess.PIPE, check=True)
                     status = 'Success'
                 except subprocess.CalledProcessError as e:
                     status = 'Failed'
                     with open(output_file, 'w') as f_out:
+                        call_str = " ".join([str(file_call), input_file])
+                        f_out.write(f"Executed call: {call_str}\n")
                         f_out.write(f"Execution failed with error:\n{e.stderr.decode('utf-8')}")
                 end_time = time.time()
 
@@ -69,7 +85,7 @@ def main(execute_clean_script):
 
                 # Append the results
                 results.append({
-                    'File': file_path,
+                    'File': str(file_path),
                     'Interpreter': interpreter,
                     'Status': status,
                     'Execution Time (s)': execution_time,
