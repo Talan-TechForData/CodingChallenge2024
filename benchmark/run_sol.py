@@ -17,9 +17,9 @@ MAP = {
 }
 
 MAP_OUTPUTS = {
-    "P1": "data/P1/",
-    "P2": "data/P2/",
-    "P3": "data/P3/"
+    "P1": "solutions/data/P1/",
+    "P2": "solutions/data/P2/",
+    "P3": "solutions/data/P3/"
 }
 
 def main(execute_clean_script):
