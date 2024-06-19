@@ -1,7 +1,8 @@
 def main():
-
+    import pathlib
+    path = pathlib.Path(__file__).parent
     # Open file and convert each line to list
-    with open("input_p1.txt", "r") as file:
+    with open(path / "data/P1/input.txt", "r") as file:
         lines = [line.strip() for line in file]
         convert_line = [list(map(int, string.split())) for string in lines]
 

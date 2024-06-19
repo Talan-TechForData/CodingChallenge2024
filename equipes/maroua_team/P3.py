@@ -124,9 +124,9 @@ def write_results_to_file(results, file_path):
 
 
 if __name__ == "__main__":
-    root = Path(__file__).resolve().parent.parent.parent
-    input_file = root / "P3/input.txt"
-    output_file = root / "P3/output.txt"
+    root = Path(__file__).parent.resolve()
+    input_file = root / "data/P3/input.txt"
+    output_file = root / "data/P3/output.txt"
 
     tests = read_tests_from_file(input_file)
     results = []

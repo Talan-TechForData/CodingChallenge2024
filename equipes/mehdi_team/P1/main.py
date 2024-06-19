@@ -15,7 +15,7 @@ def solve(input_filename, output_filename):
             count+=1
 
 if __name__ == "__main__":
-    root = Path(__file__).resolve().parent
-    input_filename = root / "input.txt"
-    output_filename = root / "output1.txt"
+    root = Path(__file__).resolve().parent.parent
+    input_filename = root / "data/P1/input.txt"
+    output_filename = root / "data/P1/output.txt"
     solve(input_filename, output_filename)

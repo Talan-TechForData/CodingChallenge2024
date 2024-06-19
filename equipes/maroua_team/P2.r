@@ -16,9 +16,9 @@ max_houses <- function(N, B, prices) {
 }
 
 main <- function() {
-  tests <- readLines("../../P2/input.txt")
+  tests <- readLines("data/P2/input.txt")
 
-  output_file <- "../../P2/output.txt"
+  output_file <- "data/P2/output.txt"
   sink(output_file)  # Rediriger la sortie vers le fichier output.txt
 
   for (i in seq(1, length(tests), by=2)) {

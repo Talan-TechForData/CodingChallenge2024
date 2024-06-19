@@ -16,9 +16,9 @@ count_peaks <- function(altitudes) {
 }
 
 main <- function() {
-  tests <- readLines("../../P1/input.txt")
+  tests <- readLines("data/P1/input.txt")
   
-  output_file <- "../../P1/output.txt"
+  output_file <- "data/P1/output.txt"
   sink(output_file)  # Rediriger la sortie vers le fichier output.txt
   
   for (i in 1:length(tests)) {

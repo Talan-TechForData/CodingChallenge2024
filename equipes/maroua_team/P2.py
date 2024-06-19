@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 def max_houses(N: int, B: int, prices: list[int]):
     """
     Calcule le nombre maximal de maisons que l'on peut acheter avec un budget
@@ -42,11 +41,11 @@ def main():
     puis enregistrement des résultats dans le fichier output.txt.
     """
     with open(
-        Path(__file__).resolve().parent.parent.parent / "P2/input.txt", "r"
+        Path(__file__).parent.resolve() / "data/P2/input.txt", "r"
     ) as file:
         tests = file.readlines()
-    root = Path(__file__).resolve().parent.parent.parent
-    output_file = root / "P2/output.txt"
+    root = Path(__file__).parent.resolve()
+    output_file = root / "data/P2/output.txt"
     with open(output_file, "w") as output:
         for i in range(1, len(tests), 2):  # Parcourez les tests par pas de 2
             N, B = map(int, tests[i].strip().split())

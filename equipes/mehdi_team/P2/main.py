@@ -5,11 +5,11 @@ def solve(input_filename, output_filename):
         t = int(f.readline())
         for i in range(t):
             n, b = f.readline().split()
-            n, b = int(n), int(b) 
+            n, b = int(n), int(b)
             a = sorted([int(x) for x in f.readline().split()])
             money_spent=0
             ans = 0
-            
+
             for i in range(n):
                 if money_spent + a[i] > b:
                     break
@@ -18,9 +18,9 @@ def solve(input_filename, output_filename):
                     ans += 1
             outfile.write("Test "+str(count+1)+": "+str(ans) + "\n")
             count+=1
-                
+
 if __name__ == "__main__":
-    root = Path(__file__).resolve().parent
-    input_filename = root / "input.txt"
-    output_filename = root / "output2.txt"
+    root = Path(__file__).resolve().parent.parent
+    input_filename = root / "data/P2/input.txt"
+    output_filename = root / "output.txt"
     solve(input_filename, output_filename)
