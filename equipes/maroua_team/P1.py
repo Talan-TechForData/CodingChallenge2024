@@ -33,11 +33,11 @@ def main():
     exécution du comptage des pics pour chaque jeu de données,
     puis enregistrement des résultats dans le fichier output.txt.
     """
-    root = Path(__file__).resolve().parent.parent.parent
-    with open(root / "P1/input.txt", "r") as file:
+    root = Path(__file__).parent.resolve()
+    with open(root / "data/P1/input.txt", "r") as file:
         tests = file.readlines()
 
-    output_file = root / "P1/output.txt"
+    output_file = root / "data/P1/output.txt"
     with open(output_file, "w") as output:
         for i, test in enumerate(tests):
             test_data = list(map(int, test.strip().split()[1:]))

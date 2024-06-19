@@ -30,7 +30,7 @@ def solve(input_filename, output_filename):
             visited = set()
             target = '0' * n
 
-            while queue: 
+            while queue:
                 node, depth, max_a, min_b = queue.popleft()
                 if node == target:
                     outfile.write("Test "+str(count+1)+": "+str(depth) + "\n")
@@ -42,10 +42,10 @@ def solve(input_filename, output_filename):
                 for neighbor, a, b in neighbors(node, n, d, max_a, min_b):
                     if neighbor not in visited:
                         queue.append((neighbor, depth + 1, a, b))
-                    
-                
+
+
 if __name__ == "__main__":
-    root = Path(__file__).resolve().parent
-    input_filename = root / "input.txt"
-    output_filename = root / "output3.txt"
+    root = Path(__file__).resolve().parent.parent
+    input_filename = root / "data/P3/input.txt"
+    output_filename = root / "data/P3/output.txt"
     solve(input_filename, output_filename)

@@ -1,0 +1,1 @@
+find equipes -type f -name "output.txt" -exec rm -v {} \;
