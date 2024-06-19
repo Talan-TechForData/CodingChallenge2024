@@ -49,7 +49,7 @@ def main():
             end_time = time.time()
             execution_time = end_time - start_time
 
-            output.write(f"Test {i+1}: {peaks} (Time: {execution_time:.6f})\n")
+            output.write(f"Test {i+1}: {peaks}\n")
 
     print("Résultats enregistrés dans le fichier output.txt.")
 
