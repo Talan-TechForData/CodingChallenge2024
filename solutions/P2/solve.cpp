@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
                 break; // If the current house price exceeds the budget, break the loop
             }
         }
-        cout << "Case #" << c << ": " << ret << endl; // Print the result for the current test case
+        cout << "Test " << c << ": " << ret << endl; // Print the result for the current test case
     }
 
     infile.close(); // Close the file

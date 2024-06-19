@@ -4,16 +4,27 @@ import time
 import pandas as pd
 from pathlib import Path
 import argparse
+import threading
 
 # Define base directory and file extensions
 base_directory = Path(__file__).parent / "../equipes"
 python_ext = '.py'
 r_ext = '.R'
 
-def main(execute_clean_script):
+def run_with_timeout(command, timeout):
+    """Run a command with a timeout."""
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    timer = threading.Timer(timeout, proc.kill)
+    try:
+        timer.start()
+        stdout, stderr = proc.communicate()
+    finally:
+        timer.cancel()
+    return stdout, stderr
+
+def main():
     results = []
 
-    # Walk through all directories and subdirectories
     for root, dirs, files in os.walk(base_directory):
         for file in files:
             file_path = os.path.join(root, file)
@@ -27,10 +38,15 @@ def main(execute_clean_script):
             # Measure the execution time
             start_time = time.time()
             try:
-                subprocess.run([interpreter, file_path], check=True)
+                stdout, stderr = run_with_timeout([interpreter, file_path], timeout=60)
                 status = 'Success'
+                print(f"Execution of {file_path} successful.")
+            except subprocess.TimeoutExpired:
+                status = '>30s'
+                print(f"Execution of {file_path} exceeded 30 seconds.")
             except subprocess.CalledProcessError:
                 status = 'Failed'
+                print(f"Execution of {file_path} failed.")
             end_time = time.time()
 
             execution_time = end_time - start_time
@@ -49,21 +65,5 @@ def main(execute_clean_script):
     # Print the results in a table format
     print(df.to_string(index=False))
 
-    # Optionally execute the clean_outputs.sh script
-    if execute_clean_script:
-        bash_file = Path(__file__).parent.resolve() / "clean_outputs.sh"
-        try:
-            subprocess.run(["bash", str(bash_file)], check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to execute clean_outputs.sh: {e}")
-    else:
-        print("Skipping execution of clean_outputs.sh")
-
 if __name__ == "__main__":
-    # Set up argparse to handle command-line arguments
-    parser = argparse.ArgumentParser(description='Execute Python and R scripts and optionally clean outputs.')
-    parser.add_argument('--clean', action='store_true', help='Execute clean_outputs.sh after execution (default: False)')
-    args = parser.parse_args()
-
-    # Call main function with optional clean argument
-    main(args.clean)
+    main()

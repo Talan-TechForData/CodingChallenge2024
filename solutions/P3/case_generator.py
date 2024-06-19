@@ -1,6 +1,6 @@
 import random
 import argparse
-
+import pathlib
 
 if __name__ == "__main__":
 
@@ -10,7 +10,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    with open("input_test.txt", "w") as fin:
+    path = pathlib.Path(__file__).parent.resolve()
+
+    with open(path / "input.txt", "w") as fin:
         fin.write(f"{args.cases}\n")
         for i in range(args.cases):
             D = random.randint(0, 9)

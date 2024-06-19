@@ -10,7 +10,7 @@ def main():
     start_list = convert_line[1:]
 
     number_of_test = 0
-    with open('output_p2_AM.txt', 'w') as f:
+    with open(path / 'data/P2/output.txt', 'w') as f:
         for i in range(0, len(start_list),2):
             #Number of house
             N = start_list[i][0]
@@ -24,7 +24,7 @@ def main():
                 for comb in itertools.combinations(start_list[i+1], r):
                     if sum(comb) <= B:
                         max_house = max(max_house, len(comb))
-            f.write(f'Test {number_of_test} : {max_house}\n')
+            f.write(f'Test {number_of_test}: {max_house}\n')
     print('Résultats exportés dans output_p2_AM.txt')
 
 

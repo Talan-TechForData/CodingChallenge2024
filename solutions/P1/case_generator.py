@@ -1,6 +1,6 @@
 import random
 import argparse
-
+import pathlib
 
 def generate_line(n):
     """Generates a random case of n peaks"""
@@ -26,7 +26,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    with open("input_test.txt", "w") as fin, open("output_test.txt", "wb") as fout:
+    path = pathlib.Path(__file__).parent.resolve()
+
+    with open(path / "input.txt", "w") as fin, open(path / "output.txt", "wb") as fout:
         for i in range(args.cases):
             pk = random.randint(0, args.cases)
             fout.write(f"Case #{i}: {pk}\n".encode("utf-8"))
