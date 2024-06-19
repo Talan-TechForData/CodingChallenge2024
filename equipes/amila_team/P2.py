@@ -10,7 +10,7 @@ def main():
     start_list = convert_line[1:]
 
     number_of_test = 0
-    with open('output_p2_AM.txt', 'w') as f:
+    with open(path / 'data/P2/output.txt', 'w') as f:
         for i in range(0, len(start_list),2):
             #Number of house
             N = start_list[i][0]

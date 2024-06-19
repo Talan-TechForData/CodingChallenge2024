@@ -7,7 +7,7 @@ def main():
         convert_line = [list(map(int, string.split())) for string in lines]
 
     number_of_test = 0
-    with open('output_p1_AM.txt','w') as f:
+    with open(path / 'data/P1/output.txt','w') as f:
         for sublist in convert_line:
             count_peak = 0
             for i in range(len(sublist) - 2):
