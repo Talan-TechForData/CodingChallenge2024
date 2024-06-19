@@ -80,7 +80,7 @@ def main(execute_clean_script):
                 except subprocess.CalledProcessError as e:
                     status = 'Failed'
                     with open(output_file, 'w') as f_out:
-                        call_str = " ".join([str(file_call), input_file])
+                        call_str = " ".join([str(file_call), str(input_file)])
                         f_out.write(f"Executed call: {call_str}\n")
                         f_out.write(f"Execution failed with error:\n{e.stderr.decode('utf-8')}")
                 end_time = time.time()
