@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        cout << "Case #" << c << ": " << peaks << endl; // Print the result for the current line
+        cout << "Test " << c << ": " << peaks << endl; // Print the result for the current line
         c++;                                            // Increment the case number
     }
 

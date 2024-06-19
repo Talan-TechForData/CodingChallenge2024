@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     for (int i = 1; i <= t; ++i)
     {
         long long result = solve_case(infile);
-        std::cout << "Case #" << i << ": " << result << "\n";
+        std::cout << "Test " << i << ": " << result << "\n";
     }
 
     return 0;
