@@ -35,9 +35,9 @@ def ecrire_fichier_sortie(fichier_sortie, resultats):
 def main():
 
     import pathlib
-    p = pathlib.Path(__file__).parent.resolve()
-    fichier_entree = p / '../data/P2/input.txt'
-    fichier_sortie = p / '../data/P2/output.txt'
+    p = pathlib.Path(__file__).parent.parent.resolve()
+    fichier_entree = p / 'data/P2/input.txt'
+    fichier_sortie = p / 'data/P2/output.txt'
 
     donnees = lire_fichier_entree(fichier_entree)
     resultats = []

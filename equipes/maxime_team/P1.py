@@ -36,9 +36,9 @@ def main():
     et écrit les résultats dans un fichier output.txt
     """
     import pathlib
-    p = pathlib.Path(__file__).parent.resolve()
-    chemin_fichier = p / '../data/P1/input.txt'
-    chemin_fichier_sortie = p / '../data/P1/output.txt'
+    p = pathlib.Path(__file__).parent.parent.resolve()
+    chemin_fichier = p / 'data/P1/input.txt'
+    chemin_fichier_sortie = p / 'data/P1/output.txt'
 
     sequences = lire_fichier(chemin_fichier)
     resultats = []
