@@ -40,7 +40,7 @@ def compare_output_with_solution(team_name, problem):
 
 def main(args):
     problems = ['P1', 'P2', 'P3']
-    teams = ['amila_team', 'maroua_team', 'mehdi_team']
+    teams = ['amila_team', 'maroua_team', 'mehdi_team', "maxime_team"]
 
     # Define initial values V based on command line arguments
     V = {
