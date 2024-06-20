@@ -2,7 +2,7 @@ import os
 from rich import print
 from rich.table import Table
 from rich.console import Console
-from rich.color import Color
+import argparse
 
 solutions_dir = 'solutions/data'
 teams_dir = 'equipes'
@@ -38,15 +38,15 @@ def compare_output_with_solution(team_name, problem):
 
     return diff_count
 
-def main():
+def main(args):
     problems = ['P1', 'P2', 'P3']
     teams = ['amila_team', 'maroua_team', 'mehdi_team']
 
-    # Define initial values V based on the number of cases
+    # Define initial values V based on command line arguments
     V = {
-        'P1': 50,
-        'P2': 50,
-        'P3': 5
+        'P1': args.P1,
+        'P2': args.P2,
+        'P3': args.P3
     }
 
     total_score = 0
@@ -77,4 +77,10 @@ def main():
     console.print(f"\nTotal score across all teams: {total_score}")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Compare team outputs with solutions.')
+    parser.add_argument('--P1', type=int, default=50, help='Number of cases for P1 (default: 50)')
+    parser.add_argument('--P2', type=int, default=50, help='Number of cases for P2 (default: 50)')
+    parser.add_argument('--P3', type=int, default=5, help='Number of cases for P3 (default: 5)')
+    args = parser.parse_args()
+
+    main(args)

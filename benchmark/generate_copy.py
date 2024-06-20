@@ -65,11 +65,10 @@ def copy_input_files():
 
     print(f"Total lines copied: {total_lines_copied}")
 
-def main(generate_cases_flag, execute_clean_script):
+def main(generate_cases_flag, num_cases, execute_clean_script):
     if generate_cases_flag:
-        generate_cases("P1", 50)
-        generate_cases("P2", 50)
-        generate_cases("P3", 5)
+        for problem, cases in num_cases.items():
+            generate_cases(problem, cases)
         copy_input_files()
 
     # Optionally execute the clean_outputs.sh script
@@ -84,7 +83,10 @@ def main(generate_cases_flag, execute_clean_script):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate cases and copy input files.')
-    parser.add_argument('--generate', action='store_true', default=True, help='Generate input.txt files (default: False)')
+    parser.add_argument('--generate', action='store_true', default=True, help='Generate input.txt files (default: True)')
+    parser.add_argument('--cases', type=int, nargs=3, metavar=('P1', 'P2', 'P3'), default=[50, 50, 5], help='Number of cases to generate for P1, P2, and P3 (default: 50 50 5)')
     args = parser.parse_args()
 
-    main(args.generate, False)  # False for execute_clean_script
+    num_cases = {'P1': args.cases[0], 'P2': args.cases[1], 'P3': args.cases[2]}
+
+    main(args.generate, num_cases, False)  # False for execute_clean_script
