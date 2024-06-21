@@ -43,3 +43,12 @@ Ce *coding challenge* consiste en 3 problèmes à resoudre via un langage de pro
 - Ajouter code source sur le repertoire `equipes`
 - Crèer un pull request avec le code  [ici](https://github.com/Talan-TechForData/CodingChallenge2024/pull/new)
 - Indiquer la branch de destin (base) `main` et la branch d'origin (compare) `my_code_competition`
+
+
+### Execute Benchmark 
+
+- To launch the benchmark, you need a python installation + a C++ compiler (gcc)
+
+```bash
+pip install poetry && poetry install && bash run_benchmark.sh
+```
